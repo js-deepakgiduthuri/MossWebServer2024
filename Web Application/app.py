@@ -117,14 +117,8 @@ def remove_apn():
             return render_template('apn_dict_exception.html', error="SIM Name must be provided.")
 
         try:
-            apn_entry = APN.query.filter_by(sim_name=sim_name).first()
-            if apn_entry:
-                db.session.delete(apn_entry)
-                db.session.commit()
-                requests.get(f"http://modify_shell:5010/remove_apn?sim_name={sim_name}")
-                return render_template('apn_dict_success.html')
-            else:
-                return render_template('apn_dict_exception.html', error="No APN found for the given SIM name.")
+            requests.get(f"http://modify_shell:5010/remove_apn?sim_name={sim_name}")
+            return render_template('apn_dict_success.html')
         except Exception as e:
             logging.error(f"Failed to remove APN: {str(e)}")
             return render_template('apn_dict_exception.html', error=str(e))
