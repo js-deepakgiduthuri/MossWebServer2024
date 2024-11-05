@@ -8,7 +8,6 @@ COPY requirements.txt /app/requirements.txt
 # Copy your Python script and other necessary files to the container
 COPY main.py /app/main.py
 COPY template.sh /app/template.sh
-COPY modem_autoconnect2.sh /app/modem_autoconnect2.sh
 
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
