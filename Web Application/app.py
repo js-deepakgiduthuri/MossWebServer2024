@@ -9,7 +9,6 @@ import logging
 
 app = Flask(__name__)
 
-
 db_path = os.path.join(os.path.dirname(__file__), 'app.db')
 db_uri = 'sqlite:///{}'.format(db_path)
 app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
@@ -26,7 +25,7 @@ migrate = Migrate(app, db)
 
 @app.route('/configure')
 def second_page():
-    with open('static/data.json', 'r') as file:
+    with open('/etc/data.json', 'r') as file:
         data = json.load(file)
     return render_template('mainhomepage.html', data=data)
 
@@ -162,5 +161,4 @@ if __name__ == "__main__":
     with app.app_context():
         db.create_all()  # Add this line to create all tables
     app.run(host='0.0.0.0', port=5055, debug=True)
-
 

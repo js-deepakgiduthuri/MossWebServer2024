@@ -1,13 +1,16 @@
 from flask import Flask, request, jsonify
 import logging
+import json
 
 app = Flask(__name__)
+
 
 def apn_parse(apn):
     """Parses the APN string to extract the SIM name and APN value."""
     name = apn.split('[')[1].split(']')[0]
     apn_value = apn.split('=')[1]
     return name, apn_value
+
 
 @app.route('/to_turn_on', methods=['GET'])
 def modify_function():
@@ -44,6 +47,7 @@ def modify_function():
     except Exception as e:
         logging.error(f"An error occurred: {str(e)}")
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
+
 
 @app.route('/remove_apn', methods=['GET'])
 def remove_apn_function():

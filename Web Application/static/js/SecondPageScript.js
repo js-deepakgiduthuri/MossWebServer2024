@@ -131,4 +131,3 @@ function populateApnDropdown(apnData) {
     apnDropdown.appendChild(option);
   }
 }
-
