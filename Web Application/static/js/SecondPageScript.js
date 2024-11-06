@@ -18,7 +18,6 @@ function openTab(evt, optionName) {
   evt.currentTarget.className += " active";
 
   if (optionName === "State") {
-    // Fetch the JSON data
     fetch('/static/data.json')
       .then(response => response.json())
       .then(data => displayStateParams(data))
@@ -26,7 +25,6 @@ function openTab(evt, optionName) {
   }
 
   if (optionName === "APNs") {
-    // Fetch the available APNs
     fetch('/get_apn')
       .then(response => response.json())
       .then(data => populateApnDropdown(data))
@@ -34,9 +32,8 @@ function openTab(evt, optionName) {
   }
 }
 
-// Wait for the document to be fully loaded
+// Additional event listeners and helper functions
 document.addEventListener("DOMContentLoaded", function() {
-  // Get the input elements for the IP address
   var ipAddressSelect = document.getElementById("ip-address-type");
   var ipAddressInput = document.getElementById("ip-address");
   var subnetMaskInput = document.getElementById("subnet-mask");
@@ -44,7 +41,6 @@ document.addEventListener("DOMContentLoaded", function() {
   var dnsServerInput = document.getElementById("dns-server");
   var dnsSecondaryInput = document.getElementById("dns-secondary");
 
-  // Add event listener to the IP address select dropdown
   ipAddressSelect.addEventListener("change", function() {
     var selectedOption = ipAddressSelect.value;
     if (selectedOption === "dynamic") {
@@ -62,20 +58,16 @@ document.addEventListener("DOMContentLoaded", function() {
     }
   });
 
-  // Add event listener for the "Add APN" button
   var addApnButton = document.getElementById("add-apn");
   if (addApnButton) {
     addApnButton.addEventListener("click", function() {
-      // Redirect to the 'add_apn.html' page
       window.location.href = "/add_apn";
     });
   }
 
-  // Add event listener for the "Remove APN" button
   var removeApnButton = document.getElementById("remove-apn");
   if (removeApnButton) {
     removeApnButton.addEventListener("click", function() {
-      // Redirect to the 'remove_apn.html' page
       window.location.href = "/remove_apn";
     });
   }
@@ -83,16 +75,12 @@ document.addEventListener("DOMContentLoaded", function() {
 
 function displayStateParams(data) {
   var stateParamsContainer = document.getElementById("stateParamsContainer");
-
-  // Clear existing content
   stateParamsContainer.innerHTML = "";
 
-  // Create a title for the parameters
   var paramsTitle = document.createElement("h2");
   paramsTitle.textContent = "State Parameters";
   stateParamsContainer.appendChild(paramsTitle);
 
-  // Loop through the parameters and create labels and values
   for (var key in data) {
     var label = document.createElement("label");
     label.classList.add("param-label");
@@ -104,14 +92,12 @@ function displayStateParams(data) {
     var paramValue = data[key];
 
     if (typeof paramValue === "object") {
-      // Handle nested objects, like the 'endpoint' object
       value.textContent = JSON.stringify(paramValue);
     } else {
-      value.textContent = " " + paramValue; // Add a space before the parameter value
+      value.textContent = " " + paramValue;
     }
 
     stateParamsContainer.appendChild(value);
-
     var lineBreak = document.createElement("br");
     stateParamsContainer.appendChild(lineBreak);
   }
@@ -119,11 +105,8 @@ function displayStateParams(data) {
 
 function populateApnDropdown(apnData) {
   var apnDropdown = document.getElementById("apn-dropdown");
-
-  // Clear existing options
   apnDropdown.innerHTML = "";
 
-  // Populate dropdown with APN data
   for (var key in apnData) {
     var option = document.createElement("option");
     option.value = key;
@@ -131,3 +114,34 @@ function populateApnDropdown(apnData) {
     apnDropdown.appendChild(option);
   }
 }
+
+function refreshLAN() {
+  const lanContainer = document.getElementById('lan-content');
+  lanContainer.innerHTML = ''; // Clear existing content
+
+  fetch('/read_ethernet')
+    .then(response => {
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      return response.json();
+    })
+    .then(data => {
+      if (data.error) throw new Error(data.error);
+
+      // Loop through each key-value pair and format with bold keys
+      for (const [key, value] of Object.entries(data)) {
+        const item = document.createElement('div');
+        item.classList.add('dictionary-item');
+
+        // Add the key in bold using innerHTML
+        item.innerHTML = `<strong>${key}:</strong> ${value}`;
+
+        lanContainer.appendChild(item);
+      }
+    })
+    .catch(error => {
+      console.error('Error fetching Ethernet data:', error);
+      lanContainer.innerHTML = '<div class="dictionary-item">Error loading Ethernet data.</div>';
+    });
+}
+
+document.addEventListener('DOMContentLoaded', refreshLAN);

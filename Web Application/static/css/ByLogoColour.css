@@ -52,13 +52,6 @@ body {
   background-color: #fff;
 }
 
-/* First section within the tab
-.section1 {
-  width: 19%;
-  background-color: #2171F4;
-  color: #fff;
-}
-*/
 
 
 .section1 {
@@ -181,20 +174,70 @@ body {
   font-size: 17px;
 }
 
-/*
-.logo {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  width: 300px;
-  height: auto;
-  transform: translate(-5%, -50%);
+.section1 {
+  position: relative; /* This makes the child elements position relative to this container */
 }
-*/
+
+.refresh-btn {
+  position: absolute; /* Positioning the button absolutely */
+  top: 10px; /* Adjust as needed for vertical positioning */
+  right: 20px; /* Adjust this value to move it left from the right edge */
+  background-color: #2171F4; /* Button color */
+  color: #fff; /* Text color */
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.refresh-btn:hover {
+  background-color: #1C60E5; /* Change color on hover */
+}
 
 .logo {
   align-self: center;
   margin-top: 2vh;
   width: 200px;
   height: 200px-; /*auto;*/
+}
+
+.lan-configuration-container {
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  padding: 15px;
+  margin-top: 20px;
+  border-radius: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  position: relative;
+}
+
+.lan-configuration-container h3 {
+  margin-top: 0;
+  color: #2171F4;
+  display: inline;
+}
+
+.lan-content {
+  flex: 1;
+  padding: 10px;
+}
+
+.refresh-btn {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 5px 10px;
+  background-color: #2171F4;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 4px;
+}
+.refresh-btn:hover {
+  background-color: #1C60E5;
+}
+.dictionary-item {
+  margin: 5px 0;
 }

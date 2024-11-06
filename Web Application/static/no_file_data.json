@@ -1,0 +1,10 @@
+{
+  "serial_number": "NO JSON FILE FOUND-Below is the basic json, not the real data",
+  "server_ip": "-",
+  "position": [0, 0],
+  "read_polling_time": 0,
+  "sync_interval_time": 0,
+  "endpoint": {
+    "0": {"server_id": 0, "lamps": [0]}
+  }
+}

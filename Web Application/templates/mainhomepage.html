@@ -77,6 +77,8 @@
     </div>
     <img src="../static/Resources/skyyBlue.png" alt="SkyBlue Logo" class="logo">
   </div>
+
+  <!-- LAN Configuration Form -->
   <div id="lan-options" class="section2">
     <h2>LAN Configuration</h2>
     <form action="/lan" method="POST">
@@ -85,22 +87,38 @@
         <option value="static">Static</option>
         <option value="dynamic">Dynamic</option>
       </select><br><br>
+
       <label for="ip-address">Indirizzo IP:</label><br>
       <input type="text" id="ip-address" name="ip_address"><br><br>
+
       <label for="subnet-mask">Subnet Mask:</label><br>
       <input type="text" id="subnet-mask" name="subnet_mask"><br><br>
+
       <label for="gateway">Gateway Predefinito:</label><br>
       <input type="text" id="gateway" name="gateway"><br><br>
+
       <label for="dns-server">DNS Server:</label><br>
       <input type="text" id="dns-server" name="dns_server"><br><br>
+
       <label for="dns-secondary">DNS Server Secondaio:</label><br>
       <input type="text" id="dns-secondary" name="dns_secondary"><br><br>
+
       <div class="submit-button">
         <button type="submit" class="submit-btn">Submit</button>
       </div>
     </form>
+
+    <!-- LAN Configuration Display Section -->
+    <div class="lan-configuration-container">
+      <h3>Ethernet Configuration</h3><br><br>
+      <div id="lan-content" class="lan-content">
+        <!-- Ethernet configuration from read_ethernet() will be displayed here -->
+      </div>
+      <button id="refresh-button" class="refresh-btn" onclick="refreshLAN()">Refresh</button>
+    </div>
   </div>
 </div>
+
 
 <div id="Server" class="tabcontent">
   <div class="section1">
@@ -126,6 +144,7 @@
   </div>
 </div>
 
+
 <div id="State" class="tabcontent">
   <div class="section1">
     <h3>Section 1 - State</h3>
@@ -148,6 +167,8 @@
     {% endfor %}
   </div>
 </div>
+
+
 
 <script src="../static/js/SecondPageScript.js"></script>
 <script>

@@ -9,6 +9,7 @@ import logging
 
 app = Flask(__name__)
 
+
 db_path = os.path.join(os.path.dirname(__file__), 'app.db')
 db_uri = 'sqlite:///{}'.format(db_path)
 app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
@@ -25,8 +26,13 @@ migrate = Migrate(app, db)
 
 @app.route('/configure')
 def second_page():
-    with open('/etc/data.json', 'r') as file:
-        data = json.load(file)
+    try:
+        with open('/etc/data.json', 'r') as file:
+            data = json.load(file)
+    except FileNotFoundError:
+        with open('static/no_file_data.json', 'r') as file:
+            data = json.load(file)
+        return render_template('mainhomepage.html', data=data)  # Display a file not found message
     return render_template('mainhomepage.html', data=data)
 
 
@@ -139,6 +145,20 @@ def get_apn():
         logging.error(f"Error fetching APN list: {str(e)}")
         return jsonify({"error": str(e)}), 500
 
+
+@app.route('/read_ethernet', methods=['GET'])
+def read_ethernet():
+    try:
+        # Making a GET request to modify_shell.py to fetch the sims_list
+        response = requests.get("http://modify_shell:5010/read_ethernet")  # Update the URL if needed
+        if response.status_code == 200:
+            ethernet_config = response.json()  # Assuming the response is in JSON format
+            return jsonify(ethernet_config), 200
+        else:
+            return jsonify({"error": "Failed to fetch ethernet configuration from modify_shell."}), response.status_code
+    except requests.exceptions.RequestException as e:
+        logging.error(f"Error fetching ethernet configuration: {str(e)}")
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route('/lan', methods=['POST'])

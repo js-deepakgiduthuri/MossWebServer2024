@@ -104,6 +104,40 @@ def get_apn():
         return jsonify({"error": f"An error occurred: {str(e)}"}), 500
 
 
+@app.route('/read_ethernet', methods=['GET'])
+def read_ethernet():
+    try:
+        with open('/etc/ethernet0_info.txt', 'r') as main_script:
+            content = main_script.read().strip()  # Read the entire content and strip extra spaces
+
+            if not content:
+                return jsonify({"No Connection": "Ethernet is not connected."}), 200
+
+            list1 = [line.strip() for line in content.splitlines()]
+
+        # Ensure the list has at least 4 lines
+        if len(list1) < 4:
+            return jsonify({"error": "Invalid content in the ethernet info file."}), 400
+
+        eth_dict = {}
+        line2, line3, line4 = list1[1], list1[2], list1[3]
+
+        eth_dict['IP Address'] = line2.split('inet ')[1].split(' ')[0] if 'inet ' in line2 else 'N/A'
+        eth_dict['Sub Netmask'] = line2.split('netmask ')[1].split(' ')[0] if 'netmask ' in line2 else 'N/A'
+        eth_dict['INET6'] = line3.split('inet6 ')[1].split(' ')[0] if 'inet6 ' in line3 else 'N/A'
+        eth_dict['Ether'] = line4.split('ether ')[1].split(' ')[0] if 'ether ' in line4 else 'N/A'
+
+        logging.info(f"Returning Ethernet info: {eth_dict}")
+        return jsonify(eth_dict), 200
+
+    except FileNotFoundError as fnf_error:
+        logging.error(f"File error: {str(fnf_error)}")
+        return jsonify({"error": f"File error: {str(fnf_error)}"}), 500
+    except Exception as e:
+        logging.error(f"An error occurred: {str(e)}")
+        return jsonify({"error": f"An error occurred: {str(e)}"}), 500
+
+
 if __name__ == "__main__":
     app.run(port=5010, host='0.0.0.0')
 
