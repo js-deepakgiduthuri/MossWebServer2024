@@ -32,8 +32,8 @@ def second_page():
     except FileNotFoundError:
         with open('static/no_file_data.json', 'r') as file:
             data = json.load(file)
-        return render_template('mainhomepage.html', data=data)  # Display a file not found message
-    return render_template('mainhomepage.html', data=data)
+        return render_template('mainpage.html', data=data)  # Display a file not found message
+    return render_template('mainpage.html', data=data)
 
 
 class Modem(db.Model):
@@ -166,7 +166,7 @@ def lan_config():
     config = Lan(**request.form)
     db.session.add(config)
     db.session.commit()
-    return render_template('afterDataBase.html')
+    return render_template('DataBaseSuccess.html')
 
 
 @app.route('/server', methods=['POST'])
@@ -174,7 +174,7 @@ def server_config():
     config = Server(**request.form)
     db.session.add(config)
     db.session.commit()
-    return render_template('afterDataBase.html')
+    return render_template('DataBaseSuccess.html')
 
 
 if __name__ == "__main__":
