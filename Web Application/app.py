@@ -27,7 +27,7 @@ migrate = Migrate(app, db)
 @app.route('/configure')
 def second_page():
     try:
-        with open('/etc/data.json', 'r') as file:
+        with open('/etc/config/config.json', 'r') as file:
             data = json.load(file)
     except FileNotFoundError:
         with open('static/no_file_data.json', 'r') as file:
