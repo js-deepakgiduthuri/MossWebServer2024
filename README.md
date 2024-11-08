@@ -17,10 +17,6 @@ Redox MossWebServer is a web-based management tool for handling modem and networ
 
 ---
 
-## Getting Started
-
-Follow these instructions to set up and run Redox MossWebServer on your system.
-
 ### Docker Image Names
 
 The Docker images required for the web server are specified below:
